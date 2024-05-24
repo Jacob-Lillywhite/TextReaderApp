@@ -205,17 +205,13 @@ namespace TextReader
 
         private void VoiceSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (voiceSelector.SelectedItem != null)
-            {
-                selectedVoice = ((dynamic)voiceSelector.SelectedItem).Id;
-            }
+            selectedVoice = voiceSelector.SelectedItem != null ? ((dynamic)voiceSelector.SelectedItem).Id : selectedVoice;
         }
 
         private void VolumeSelector_ValueChanged(object sender, EventArgs e)
         {
             TrackBar trackBar = (TrackBar)sender;
             selectedVolume = (float)trackBar.Value/100;
-            Console.WriteLine(selectedVolume);
         }
 
         private void HideLoading()
@@ -226,14 +222,7 @@ namespace TextReader
 
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
-            if(!textBox.Text.Equals(previouslyProcessedText))
-            {
-                ProcessButton.Enabled = true;
-            }
-            else 
-            { 
-                ProcessButton.Enabled = false; 
-            }
+            ProcessButton.Enabled = !textBox.Text.Equals(previouslyProcessedText);
         }
     }
 }

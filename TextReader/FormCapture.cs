@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Tesseract;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TextReader
 {
-
-
     public partial class FormCapture : Form
     {
-        private TesseractEngine engine;
+        private readonly TesseractEngine engine;
 
         int selectX;
         int selectY;
@@ -28,7 +24,9 @@ namespace TextReader
 
         public FormCapture()
         {
-            engine = new TesseractEngine(@"C:\Users\podfi\source\repos\TextReader\TextReader\tessdata", "eng", EngineMode.Default);
+            string projectRoot = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            string tessDataPath = Path.Combine(projectRoot, "TextReader", "tessdata");
+            engine = new TesseractEngine(tessDataPath, "eng", EngineMode.Default);
             InitializeComponent();
 
             this.TopMost = true;
@@ -48,7 +46,7 @@ namespace TextReader
                 Screen.PrimaryScreen.Bounds.Width, 
                 Screen.PrimaryScreen.Bounds.Height);
 
-            Graphics graphics = Graphics.FromImage(printScreen as System.Drawing.Image);
+            Graphics graphics = Graphics.FromImage(printScreen);
             graphics.CopyFromScreen(0, 0, 0, 0, printScreen.Size);
 
             using (MemoryStream memoryStream = new MemoryStream()) 
@@ -126,15 +124,11 @@ namespace TextReader
                 graphics.CompositingQuality = CompositingQuality.HighQuality;
                 graphics.DrawImage(OriginalImage, 0, 0, rectangle, GraphicsUnit.Pixel);
 
-                // ---
-                // Capture the content of the screen
                 using (Bitmap screenshot = new Bitmap(_img))
-
                 using (Graphics g = Graphics.FromImage(_img))
                 {
                     g.CopyFromScreen(this.Location, Point.Empty, this.Size);
 
-                    // Use Tesseract to perform OCR on the captured image
                     using (Page page = engine.Process(screenshot))
                     {
                         extractedText = page.GetText();
@@ -149,12 +143,9 @@ namespace TextReader
                         Regex regex2 = new Regex("(?:^| )[b-hj-z](?= |$)");
                         extractedText = regex.Replace(extractedText, "");
                         extractedText = regex2.Replace(extractedText, "");
-
-                        // Update your form's label or other controls with the extracted text
-
                     }
                 }
-                // ---
+
                 if (extractedText?.Length == 0) { extractedText = " "; }
                 Clipboard.SetText(extractedText);
             }
