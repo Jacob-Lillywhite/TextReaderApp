@@ -1,8 +1,10 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
+using TextReader.Windows;
 
 namespace TextReader
 {
-    partial class FormOverlay
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,10 +33,10 @@ namespace TextReader
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOverlay));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.CaptureButton = new System.Windows.Forms.Button();
-            this.ProcessButton = new System.Windows.Forms.Button();
+            this.SnipButton = new System.Windows.Forms.Button();
+            this.ReadButton = new System.Windows.Forms.Button();
             this.voiceSelector = new System.Windows.Forms.ComboBox();
             this.volumeSelector = new System.Windows.Forms.TrackBar();
             this.textBox = new System.Windows.Forms.TextBox();
@@ -56,8 +58,8 @@ namespace TextReader
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.CaptureButton, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.ProcessButton, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.SnipButton, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ReadButton, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.voiceSelector, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.volumeSelector, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -70,47 +72,47 @@ namespace TextReader
             this.tableLayoutPanel1.Size = new System.Drawing.Size(572, 77);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
-            // CaptureButton
+            // SnipButton
             // 
-            this.CaptureButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.CaptureButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CaptureButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CaptureButton.FlatAppearance.BorderSize = 0;
-            this.CaptureButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(77)))), ((int)(((byte)(138)))));
-            this.CaptureButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
-            this.CaptureButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CaptureButton.Font = new System.Drawing.Font("Lucida Console", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CaptureButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.CaptureButton.Image = global::TextReader.Properties.Resources.snip;
-            this.CaptureButton.Location = new System.Drawing.Point(3, 3);
-            this.CaptureButton.Name = "CaptureButton";
-            this.CaptureButton.Size = new System.Drawing.Size(280, 32);
-            this.CaptureButton.TabIndex = 0;
-            this.CaptureButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CaptureButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.toolTip1.SetToolTip(this.CaptureButton, "Capture Text");
-            this.CaptureButton.UseVisualStyleBackColor = false;
-            this.CaptureButton.Click += new System.EventHandler(this.CaptureButton_Click);
+            this.SnipButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.SnipButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.SnipButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SnipButton.FlatAppearance.BorderSize = 0;
+            this.SnipButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(77)))), ((int)(((byte)(138)))));
+            this.SnipButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
+            this.SnipButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SnipButton.Font = new System.Drawing.Font("Lucida Console", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SnipButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.SnipButton.Image = global::TextReader.Properties.Resources.snip;
+            this.SnipButton.Location = new System.Drawing.Point(3, 3);
+            this.SnipButton.Name = "SnipButton";
+            this.SnipButton.Size = new System.Drawing.Size(280, 32);
+            this.SnipButton.TabIndex = 0;
+            this.SnipButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.SnipButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.toolTip1.SetToolTip(this.SnipButton, "Capture Text");
+            this.SnipButton.UseVisualStyleBackColor = false;
+            this.SnipButton.Click += new System.EventHandler(this.SnipButton_Click);
             // 
-            // ProcessButton
+            // ReadButton
             // 
-            this.ProcessButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.ProcessButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProcessButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ProcessButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.ProcessButton.FlatAppearance.BorderSize = 0;
-            this.ProcessButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(77)))), ((int)(((byte)(138)))));
-            this.ProcessButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
-            this.ProcessButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ProcessButton.Font = new System.Drawing.Font("Lucida Console", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProcessButton.Image = global::TextReader.Properties.Resources.play;
-            this.ProcessButton.Location = new System.Drawing.Point(289, 3);
-            this.ProcessButton.Name = "ProcessButton";
-            this.ProcessButton.Size = new System.Drawing.Size(280, 32);
-            this.ProcessButton.TabIndex = 1;
-            this.toolTip1.SetToolTip(this.ProcessButton, "Play Audio");
-            this.ProcessButton.UseVisualStyleBackColor = false;
-            this.ProcessButton.Click += new System.EventHandler(this.ProcessButton_ClickAsync);
+            this.ReadButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.ReadButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ReadButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ReadButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.ReadButton.FlatAppearance.BorderSize = 0;
+            this.ReadButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(77)))), ((int)(((byte)(138)))));
+            this.ReadButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
+            this.ReadButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ReadButton.Font = new System.Drawing.Font("Lucida Console", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ReadButton.Image = global::TextReader.Properties.Resources.play;
+            this.ReadButton.Location = new System.Drawing.Point(289, 3);
+            this.ReadButton.Name = "ReadButton";
+            this.ReadButton.Size = new System.Drawing.Size(280, 32);
+            this.ReadButton.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.ReadButton, "Play Audio");
+            this.ReadButton.UseVisualStyleBackColor = false;
+            this.ReadButton.Click += new System.EventHandler(this.ReadButton_ClickAsync);
             // 
             // voiceSelector
             // 
@@ -213,7 +215,7 @@ namespace TextReader
             this.LoadingBox.TabIndex = 5;
             this.LoadingBox.TabStop = false;
             // 
-            // FormOverlay
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -228,7 +230,7 @@ namespace TextReader
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormOverlay";
+            this.Name = "MainForm";
             this.Text = "Text Reader";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -242,16 +244,17 @@ namespace TextReader
 
             // Uncomment this out to use native windows DARK_MODE styling,
             // it helps the WinForm looks a bit more mordern...
-            //var preference = Convert.ToInt32(true);
-            //DwmSetWindowAttribute(this.Handle,
-            //                      DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE,
-            //                      ref preference, sizeof(uint));
+            var preference = Convert.ToInt32(true);
+            NativeMethods.DwmSetWindowAttribute(this.Handle,
+                                  DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE,
+                                  ref preference, sizeof(uint));
+
         }
 
         #endregion
 
-        private Button CaptureButton;
-        private Button ProcessButton;
+        private Button SnipButton;
+        private Button ReadButton;
         private ComboBox voiceSelector;
         private Label label1;
         private Panel ProcessingPanel;

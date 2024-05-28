@@ -1,5 +1,8 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Forms;
+using TextReader.Services;
+using System.Runtime.InteropServices;
 
 namespace TextReader
 {
@@ -11,9 +14,23 @@ namespace TextReader
         [STAThread]
         static void Main()
         {
+            var serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormOverlay());
+            var ttsService = serviceProvider.GetRequiredService<ITtsService>();
+            var formCapture = serviceProvider.GetRequiredService<ISnippingForm>();
+            var formOverlay = new MainForm(formCapture, ttsService);
+            
+            Application.Run(formOverlay);
+        }
+
+        private static void ConfigureServices(ServiceCollection services)
+        {
+            services.AddTransient<ITtsService, TtsService>();
+            services.AddTransient<ISnippingForm, SnippingForm>();
         }
     }
 }

@@ -4,31 +4,32 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using TextReader.Models;
 
-namespace TextReader
+namespace TextReader.Services
 {
-    public class TTSService
+    public class TtsService: ITtsService
     {
-        private const string baseUrl = "https://api.elevenlabs.io/v1/text-to-speech/";
+        private const string BASE_URL = "https://api.elevenlabs.io/v1/text-to-speech/";
         private readonly string API_KEY = Environment.GetEnvironmentVariable("ELEVEN_LABS_API_KEY");
         public bool requesting = false;
 
         public async Task<string> RequestAudio(string prompt, string voice, string fileName)
         {
-            string url = baseUrl + voice;
+            string url = BASE_URL + voice;
             HttpClient client = new HttpClient();
 
             client.DefaultRequestHeaders.Add("xi-api-key", API_KEY);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("audio/mpeg"));
 
-            var data = new
+            var data = new ElevenLabsRequest()
             {
                 text = prompt,
                 model_id = "eleven_monolingual_v1",
-                voice_settings = new
+                voice_settings = new VoiceSettings()
                 {
                     stability = 0.5f,
-                    similarity_boost = 0.5f
+                    similarity_boost = 0.8f
                 }
             };
 
@@ -66,15 +67,12 @@ namespace TextReader
                     {
                         Console.WriteLine(ex.Message);
                         retries++;
-                        if (retries > 50) { break; }
+                        if (retries > 10) { break; }
                         fileNameExtension++;
                     }
                 }
 
-                if(fileNameValid)
-                {
-                    return fileName + fileNameExtension.ToString() + ".mp3";
-                }
+                return fileName + fileNameExtension.ToString() + ".mp3";
             }
             return null;
         }

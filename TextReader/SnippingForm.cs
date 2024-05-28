@@ -2,13 +2,12 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Tesseract;
 
 namespace TextReader
 {
-    public partial class FormCapture : Form
+    public partial class SnippingForm : Form, ISnippingForm
     {
         private readonly TesseractEngine engine;
 
@@ -22,7 +21,7 @@ namespace TextReader
 
         bool start = false;
 
-        public FormCapture()
+        public SnippingForm()
         {
             string projectRoot = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
             string tessDataPath = Path.Combine(projectRoot, "TextReader", "tessdata");
@@ -38,7 +37,7 @@ namespace TextReader
             this.Left = 0;
         }
 
-        private void FormCapture_Load(object sender, EventArgs e)
+        public void SnippingForm_Load(object sender, EventArgs e)
         {
             this.Hide();
 
@@ -54,14 +53,14 @@ namespace TextReader
                 printScreen.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
                 picCapture.Size = new Size(this.Width, this.Height);
 
-                picCapture.Image = System.Drawing.Image.FromStream(memoryStream);
+                picCapture.Image = Image.FromStream(memoryStream);
             }
 
             this.Show();
             Cursor = Cursors.Cross;
         }
 
-        private void picCapture_MouseDown(object sender, MouseEventArgs e)
+        public void Capture_MouseDown(object sender, MouseEventArgs e)
         {
             if (!start)
             {
@@ -72,12 +71,11 @@ namespace TextReader
                     selectPen = new Pen(Color.FromArgb(0, 120, 215), 5);
                     selectPen.DashStyle = DashStyle.DashDotDot;
                 }
-                picCapture.Refresh();
                 start = true;
             }
         }
 
-        private void picCapture_MouseMove(object sender, MouseEventArgs e)
+        public void Capture_MouseMove(object sender, MouseEventArgs e)
         {
             if(picCapture.Image == null) { return; }
 
@@ -89,27 +87,18 @@ namespace TextReader
 
                 picCapture.CreateGraphics().SmoothingMode = SmoothingMode.AntiAlias;
                 picCapture.CreateGraphics().DrawRectangle(selectPen, selectX, selectY, selectWidth, selectHeight);
-
             }
         }
 
-        private void picCapture_MouseUp(object sender, MouseEventArgs e)
+        public void Capture_MouseUp(object sender, MouseEventArgs e)
         {
             if (picCapture.Image == null) { return; }
-
-            if (e.Button == MouseButtons.Left)
-            {
-                picCapture.Refresh();
-                selectWidth = e.X - selectX;
-                selectHeight = e.Y - selectY;
-                picCapture.CreateGraphics().DrawRectangle(selectPen, selectX, selectY, selectWidth, selectHeight);
-            }
 
             start = false;
             SaveToClipBoard();
         }
 
-        private void SaveToClipBoard()
+        public void SaveToClipBoard()
         {
             if(selectWidth > 0)
             {
@@ -132,17 +121,16 @@ namespace TextReader
                     using (Page page = engine.Process(screenshot))
                     {
                         extractedText = page.GetText();
-                        Console.WriteLine("Extracted Text: " + extractedText);
-                        extractedText = extractedText.Replace("\n", " ")
-                            .Replace("\r", " ")
-                            .Replace("@", "")
-                            .Replace("!", ".")
-                            .Replace("  ", " ")
-                            .Replace("\\", " ");
-                        Regex regex = new Regex("[^a-zA-Z0-9,.'\"!? ]+");
-                        Regex regex2 = new Regex("(?:^| )[b-hj-z](?= |$)");
-                        extractedText = regex.Replace(extractedText, "");
-                        extractedText = regex2.Replace(extractedText, "");
+                        extractedText = extractedText.Replace("\n", "\r\n")
+                            .Replace("\r", "\r\n");
+                        //    .Replace("@", "")
+                        //    .Replace("!", ".")
+                        //    .Replace("  ", " ")
+                        //    .Replace("\\", " ");
+                        //Regex regex = new Regex("[^a-zA-Z0-9,.'\"!? ]+");
+                        //Regex regex2 = new Regex("(?:^| )[b-hj-z](?= |$)");
+                        //extractedText = regex.Replace(extractedText, "");
+                        //extractedText = regex2.Replace(extractedText, "");
                     }
                 }
 

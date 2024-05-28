@@ -1,6 +1,6 @@
 ﻿namespace TextReader
 {
-    partial class FormCapture
+    partial class SnippingForm
     {
         /// <summary>
         /// Required designer variable.
@@ -39,9 +39,9 @@
             this.picCapture.Size = new System.Drawing.Size(100, 100);
             this.picCapture.TabIndex = 0;
             this.picCapture.TabStop = false;
-            this.picCapture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCapture_MouseDown);
-            this.picCapture.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCapture_MouseMove);
-            this.picCapture.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCapture_MouseUp);
+            this.picCapture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Capture_MouseDown);
+            this.picCapture.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Capture_MouseMove);
+            this.picCapture.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Capture_MouseUp);
             // 
             // FormCapture
             // 
@@ -51,7 +51,7 @@
             this.Controls.Add(this.picCapture);
             this.Name = "FormCapture";
             this.Text = "FormCapture";
-            this.Load += new System.EventHandler(this.FormCapture_Load);
+            this.Load += new System.EventHandler(this.SnippingForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picCapture)).EndInit();
             this.ResumeLayout(false);
 
